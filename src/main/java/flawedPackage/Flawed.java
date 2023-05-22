@@ -47,7 +47,7 @@ public class Flawed {
 	}
 
 	public static void insufficientEntropy_311() throws NoSuchAlgorithmException {
-		System.out.println(new Random().nextInt());
+		System.out.println(new SecureRandom().nextInt());
 		MessageDigest mdBadMD = MessageDigest.getInstance("MD5");
 		MessageDigest mdBadSHA1 = MessageDigest.getInstance("SHA-1");
 		MessageDigest mdGoodSHA256 = MessageDigest.getInstance("SHA-256");
