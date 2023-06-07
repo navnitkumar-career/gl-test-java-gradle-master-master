@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Random;
  
@@ -30,9 +31,11 @@ public class Flawed {
 
 	public static void sqlInjection(String taintedString) throws SQLException {
 		try (java.sql.Connection conn = java.sql.DriverManager.getConnection(taintedString)) {
-			java.sql.Statement statement = conn.createStatement(1004, 1007);
+			String statementQueryStr = "SELECT * FROM user_system_data WHERE user_name = ?";
+			PreparedStatement statement = conn.prepareStatement(statementQueryStr);
+			statement.setString(1, taintedString);
 			statement.executeQuery(
-					"SELECT * FROM user_system_data WHERE user_name = '" + taintedString + "'")
+			)
 					.toString();
 		}
 	}
